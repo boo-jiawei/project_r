@@ -22,14 +22,13 @@ const BlogForm = ({addBlog}) => {
         status: "warning",
         duration: 3000,
         isClosable: true,
-        position: "top-right",
+        position: "bottom",
       });
       return;
     }
     const timestamp = Date.now();
 
     const newPost = {
-      id: String(timestamp),
       title: title,
       content: content,
       date: new Date(timestamp).toLocaleDateString(),

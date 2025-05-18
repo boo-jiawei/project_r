@@ -1,5 +1,14 @@
 import { useEffect, useState } from "react";
 import {
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc,
+  serverTimestamp,
+} from "firebase/firestore";
+import db from "../firebase";
+import {
   Divider,
   SimpleGrid,
   Box,
@@ -13,22 +22,39 @@ import BlogForm from "../components/BlogForm";
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
+  const blogCollection = collection(db, "blogs");
 
-  useEffect(() => {
-    const storedBlogs = JSON.parse(localStorage.getItem("blog-posts")) || [];
-    setBlogs(storedBlogs);
-  }, []);
-
-  const addBlog = (newBlog) => {
-    const updatedBlog = [newBlog, ...blogs];
-    setBlogs(updatedBlog);
-    localStorage.setItem("blog-posts", JSON.stringify(updatedBlog));
+  const fetchBlogs = async () => {
+    const snapshot = await getDocs(blogCollection);
+    const blogData = snapshot.docs.map((doc) => ({
+      id: doc.id, // firestore id
+      ...doc.data(),
+    }));
+    setBlogs(
+      blogData.sort((a, b) => b.timestamp?.seconds - a.timestamp?.seconds)
+    );
   };
 
-  const deleteBlog = (id) => {
-    const updatedBlog = blogs.filter((blog) => blog.id !== id);
-    setBlogs(updatedBlog);
-    localStorage.setItem("blog-posts", JSON.stringify(updatedBlog));
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
+
+  const addBlog = async (newBlog) => {
+    await addDoc(blogCollection, {
+      ...newBlog,
+      timestamp: serverTimestamp(),
+    });
+    fetchBlogs();
+  };
+
+  const deleteBlog = async (id) => {
+    try {
+      const blog = doc(db, "blogs", id);
+      await deleteDoc(blog);
+      fetchBlogs();
+    } catch (error) {
+      alert("Error deleting blog:", error);
+    }
   };
 
   return (
