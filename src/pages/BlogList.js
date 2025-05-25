@@ -16,6 +16,11 @@ import {
   Text,
   Stack,
   IconButton,
+  Accordion,
+  AccordionButton,
+  AccordionItem,
+  AccordionIcon,
+  AccordionPanel,
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import BlogForm from "../components/BlogForm";
@@ -59,7 +64,30 @@ const BlogList = () => {
 
   return (
     <Box maxWidth="6xl" mx="auto" p={6}>
-      <BlogForm addBlog={addBlog} />
+      <Accordion>
+        <AccordionItem
+          borderRadius="md"
+          fontSize="1x"
+          borderColor="grey.200"
+          overflow="hidden"
+        >
+          <h2>
+            <AccordionButton
+              px={4}
+              py={3}
+              _expanded={{ bg: "blue.500", color: "white" }}
+            >
+              <Box flex="1" textAlign="left" fontWeight="bold">
+                Create New Blog
+              </Box>
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4} px={4}>
+            <BlogForm addBlog={addBlog} />
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
+
       <Divider my={8} />
       {blogs.length === 0 ? (
         <Text textAlign="center" fontSize="x1" color="gray.500">
