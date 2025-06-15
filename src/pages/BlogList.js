@@ -23,7 +23,32 @@ import {
   AccordionPanel,
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
+import { Cloudinary } from "@cloudinary/url-gen/index";
+import { AdvancedImage } from "@cloudinary/react";
+import { auto } from "@cloudinary/url-gen/actions/resize";
+import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 import BlogForm from "../components/BlogForm";
+const cld = new Cloudinary({
+  cloud: {
+    cloudName: "dgtrzafgv",
+  },
+});
+
+const BlogImage = ({ public_id }) => {
+  if (!public_id) return null;
+
+  const Img = cld
+    .image(public_id)
+    .format("auto")
+    .quality("auto")
+    .resize(auto().gravity(autoGravity()).width(500).height(300));
+
+  return (
+    <Box mb={4} borderRadius="md" overflow="hidden" maxH="300px">
+      <AdvancedImage cldImg={Img} />
+    </Box>
+  );
+};
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
@@ -75,7 +100,7 @@ const BlogList = () => {
             <AccordionButton
               px={4}
               py={3}
-              _expanded={{ bg: "blue.500", color: "white" }}
+              _expanded={{ bg: "cyan.600", color: "white" }}
             >
               <Box flex="1" textAlign="left" fontWeight="bold">
                 Create New Blog
@@ -94,7 +119,7 @@ const BlogList = () => {
           No blogs found.
         </Text>
       ) : (
-        <SimpleGrid columns={3} spacing={6}>
+        <SimpleGrid columns={2} spacing={7}>
           {blogs.map((blog) => (
             <Box
               padding={4}
@@ -125,6 +150,7 @@ const BlogList = () => {
                 transition="opacity 0.2s"
               />
               <Stack spacing={3}>
+                <BlogImage public_id={blog.imageUrl} />
                 <Heading size={"md"} color="gray.800">
                   {blog.title}
                 </Heading>
