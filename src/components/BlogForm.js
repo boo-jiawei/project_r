@@ -1,26 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Input,
   Textarea,
   Button,
-  VStack,
   useToast,
   FormControl,
   FormLabel,
   Image,
   Stack,
 } from "@chakra-ui/react";
-import { body, image } from "framer-motion/client";
-// import { title } from "framer-motion/client";
 
-const IMGUR_CLIENT_ID = "a4b00867ea9e951";
-
-const CLD_Cloud_NAME = "dgtrzafgv";
-const CLD_API_KEY = "968978677113572";
-const CLD_API_SECRET = "ClFyfdxSiwfHoAvcRH1Ig_1TJmE";
-const CLD_ENV_VAR =
-  "CLOUDINARY_URL=cloudinary://968978677113572:ClFyfdxSiwfHoAvcRH1Ig_1TJmE@dgtrzafgv";
 const UPload_Preset = "free-upload";
 const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dgtrzafgv/image/upload";
 

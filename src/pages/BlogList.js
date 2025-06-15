@@ -19,7 +19,6 @@ import {
   Accordion,
   AccordionButton,
   AccordionItem,
-  AccordionIcon,
   AccordionPanel,
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
@@ -67,6 +66,7 @@ const BlogList = () => {
 
   useEffect(() => {
     fetchBlogs();
+    // eslint-disable-next-line
   }, []);
 
   const addBlog = async (newBlog) => {
