@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Container, Heading } from "@chakra-ui/react";
 import BlogList from "./pages/BlogList";
+import BlogDetails from "./pages/BlogDetails";
 
 const App = () => {
   return (
@@ -9,6 +10,7 @@ const App = () => {
         <Heading mb={6}>Blog</Heading>
         <Routes>
           <Route path="/" element={<BlogList/>} />
+          <Route path="/blog/:id" element={<BlogDetails/>} />
         </Routes>
       </Container>
     </Router>

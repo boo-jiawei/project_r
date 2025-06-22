@@ -27,6 +27,7 @@ import { AdvancedImage } from "@cloudinary/react";
 import { auto } from "@cloudinary/url-gen/actions/resize";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 import BlogForm from "../components/BlogForm";
+import { Link as RouterLInk } from "react-router-dom";
 const cld = new Cloudinary({
   cloud: {
     cloudName: "dgtrzafgv",
@@ -122,8 +123,10 @@ const BlogList = () => {
         <SimpleGrid columns={2} spacing={7}>
           {blogs.map((blog) => (
             <Box
+            as={RouterLInk}
+            to={`blog/${blog.id}`}
+            key={blog.id}
               padding={4}
-              key={blog.id}
               bg="white"
               borderRadius="lg"
               boxShadow="md"
@@ -151,14 +154,17 @@ const BlogList = () => {
               />
               <Stack spacing={3}>
                 <BlogImage public_id={blog.imageUrl} />
-                <Heading size={"md"} color="gray.800">
+                <Heading size="lg" color="gray.800">
                   {blog.title}
                 </Heading>
-                <Text fontSize={"sm"} color="gray.400">
+                <Text fontSize="sm" color="gray.400">
                   {blog.date}
                 </Text>
                 <Text fontSize="md" color="grey.700" noOfLines={4}>
                   {blog.content}
+                </Text>
+                <Text fontSize="md" color="black.700">
+                  -{blog.author}
                 </Text>
               </Stack>
             </Box>

@@ -17,6 +17,7 @@ const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dgtrzafgv/image/upload";
 const BlogForm = ({ addBlog }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [author, setAuthor] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -71,7 +72,7 @@ const BlogForm = ({ addBlog }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!title || !content) {
+    if (!title || !content || !author) {
       toast({
         title: "All fields are required",
         status: "warning",
@@ -97,12 +98,14 @@ const BlogForm = ({ addBlog }) => {
         content: content,
         date: new Date(timestamp).toLocaleDateString(),
         imageUrl,
+        author: author,
       };
 
       addBlog(newPost);
 
       setTitle("");
       setContent("");
+      setAuthor("");
       setImageFile(null);
       setPreviewUrl(null);
     } catch (error) {
@@ -115,6 +118,9 @@ const BlogForm = ({ addBlog }) => {
   return (
     <Box as="form" onSubmit={handleSubmit}>
       <Stack>
+{/* <a href="https://console.cloudinary.com/app/c-af2612e3fd7b730b1ae4c0700ebaf6/assets/media_library/homepage" target="_blank" color="">
+  Open Cloudinary
+</a> */}
         <FormControl isRequired>
           <FormLabel>Title</FormLabel>
           <Input
@@ -134,6 +140,15 @@ const BlogForm = ({ addBlog }) => {
         </FormControl>
 
         <FormControl isRequired>
+          <FormLabel>Author</FormLabel>
+          <Input
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
+            placeholder="Author's name"
+          ></Input>
+        </FormControl>
+
+        <FormControl isRequired>
           <FormLabel>Cover Image</FormLabel>
           <Input type="file" accept="image/*" onChange={handleImageChange} />
         </FormControl>
@@ -142,7 +157,7 @@ const BlogForm = ({ addBlog }) => {
           <Image
             src={previewUrl}
             alt="Preview-Image"
-            boxSize="200px"
+            boxSize="100pxs"
             objectFit="cover"
           />
         )}
